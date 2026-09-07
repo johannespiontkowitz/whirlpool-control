@@ -127,15 +127,17 @@ while True:
                 # Publish current temperature retained
                 client.publish(b"whirlpool/current_temp", temp_str.encode(), retain=True)
 
+                print("Bubble intensity: ", bubble_level_text)
+
                 if pump_should_run(temp, TARGET_TEMP):
                     heater.on()
                     pump1.on()
                     print("Pump and heater running.")
-                    print("Bubble intensity: ", bubble_level_text)
                 else:
                     pump1.off()
                     heater.off()
-
+                    print("Pump and heater stopped.")
+                    
             ds.convert_temp()
             last_run_ms = time.ticks_ms()
 
