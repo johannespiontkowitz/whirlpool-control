@@ -39,3 +39,15 @@ Lastly, install esp toolboxes:
 `git branch -M main`  
 `git fetch`  
 `git pull`  
+
+## Home assistant setup & connection
+### Network config
+Inside src/configs, use the *_config.example.py to files withut the .example and fill with real values.
+`WIFI_SSID = "YourNetworkName"`  
+`WIFI_PASSWORD = "YourNetworkPassword"`  
+`MQTT_BROKER = "homeassistant.local"` #IP of home assistant broker
+
+### Home assistant setup
+To test the home assistant implementation, we set up a VM that runs Home Assistant virtually in the network.  
+Follow [http://home-assistant.io/installation/windows/](http://home-assistant.io/installation/windows/).
+When done, this will enable us to reach [http://homeassistant.local/](homeassistant.local) on the host machine.

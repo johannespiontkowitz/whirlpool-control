@@ -2,3 +2,5 @@ venv/
 __pycache__/
 *.pyc
 .vscode/
+src/configs/network_config.py
+src/configs/mqtt_config.py
