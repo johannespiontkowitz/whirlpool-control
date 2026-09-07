@@ -1,8 +1,15 @@
 # Whirlpool Controller
+## __Open Todos__
+- Home assistant does show values (current and target) even when esp32 is not reachable -> should show unavailable
+- LEDs not implemented
+- ESP does not reach WIFI (only it's own)
+- Homeassistant only available locally
+- ...? 
+
 ## Overview
 This project contains code to run a ESP32 as a electronic control unit for a whirlpool. 
 
-__The whirlpool currently features__
+__The (real life) whirlpool currently features__
 - 2 Pumps that control the waterflow (and start pumping once the temperature drops below a target)
 - a turbine to produce bubbles
 - a temperature sensor that monitors the water temp
@@ -26,10 +33,8 @@ Lastly, install esp toolboxes:
 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`  
 `venv\Scripts\Activate.ps1`
 
-
 ### Upload code to the esp (below is the code for WOKWI simulator)
 `python -m mpremote connect port:rfc2217://localhost:4000 mount src run src/main.py`
-
 
 ### GitHub
 `git init`  
