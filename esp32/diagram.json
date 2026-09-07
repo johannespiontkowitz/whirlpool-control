@@ -5,16 +5,32 @@
   "parts": [
     { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
     { "type": "wokwi-ds18b20", "id": "temp1", "top": -50, "left": 150 },
-    { "type": "wokwi-relay-module", "id": "relay1", "top": 100, "left": 150 }
+
+    { "type": "wokwi-relay-module", "id": "pump1", "top": 100, "left": 150 },
+    { "type": "wokwi-relay-module", "id": "heater", "top": 200, "left": 150 },
+
+    { "type": "wokwi-potentiometer", "id": "bubblecontrol", "top": 100, "left": -150 },
+
+    { "type": "wokwi-rgb-led", "id": "ledplaceholder", "top": 200, "left": -150 }
   ],
   "connections": [
     [ "esp:TX", "$serialMonitor:RX", "", [] ], 
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
+
     [ "esp:4", "temp1:DQ", "green", [] ],
     [ "esp:3V3", "temp1:VCC", "red", [] ],
     [ "esp:GND", "temp1:GND", "black", [] ],
-    [ "esp:5", "relay1:IN", "blue", [] ],
-    [ "esp:GND", "relay1:GND", "black", [] ],
-    [ "esp:VIN", "relay1:VCC", "red", [] ]
+
+    [ "esp:5", "pump1:IN", "blue", [] ],
+    [ "esp:GND", "pump1:GND", "black", [] ],
+    [ "esp:VIN", "pump1:VCC", "red", [] ],
+
+    [ "esp:2", "heater:IN", "blue", [] ],
+    [ "esp:GND", "heater:GND", "black", [] ],
+    [ "esp:VIN", "heater:VCC", "red", [] ],
+
+    [ "esp:34", "bubblecontrol:SIG", "blue", [] ],
+    [ "esp:GND", "bubblecontrol:GND", "black", [] ],
+    [ "esp:VIN", "bubblecontrol:VCC", "red", [] ]
   ]
 }
