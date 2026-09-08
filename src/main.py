@@ -2,7 +2,9 @@ import time
 import network
 import machine
 import ubinascii
-from machine import Pin, ADC
+import ssd1306
+
+from machine import Pin, ADC, I2C
 import onewire, ds18x20
 import umqtt.robust as mqtt
 
@@ -29,6 +31,18 @@ SENSOR_INTERVAL_MS = 2500
 
 TARGET_TEMP = 30.0
 client = None
+
+# screen setup
+SCREEN_WIDTH = 128 # OLED width,  in pixels
+SCREEN_HEIGHT = 64 # OLED height, in pixels
+
+i2c = I2C(0, scl=Pin(22), sda=Pin(21))
+oled = ssd1306.SSD1306_I2C(SCREEN_WIDTH, SCREEN_HEIGHT, i2c)
+
+oled.fill(0)
+oled.text("Whirlpool", 0, 0)
+oled.text("Booting...", 0, 12)
+oled.show()
 
 def on_message(topic, msg):
     global TARGET_TEMP
@@ -137,6 +151,15 @@ while True:
                     pump1.off()
                     heater.off()
                     print("Pump and heater stopped.")
+
+                oled.fill(0)
+                oled.text("Target: {:.1f}C".format(TARGET_TEMP), 0, 0)
+                oled.text("Temp:   {:.1f}C".format(temp), 0, 10)
+                oled.text("Bubble: {}".format(bubble_level_text), 0, 20)
+                oled.text("Cover: {}".format("closed" if cover_closed else "open"), 0, 30)
+                oled.text("Heat:  {}".format("on" if heater.value() else "off"), 0, 40)
+                oled.text("Pump:  {}".format("on" if pump1.value() else "off"), 0, 50)
+                oled.show()
                     
             ds.convert_temp()
             last_run_ms = time.ticks_ms()
