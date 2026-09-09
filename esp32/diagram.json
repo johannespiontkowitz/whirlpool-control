@@ -4,11 +4,17 @@
   "editor": "wokwi",
   "parts": [
     { "type": "board-esp32-devkit-c-v4", "id": "esp", "top": 0, "left": 0, "attrs": {} },
-    { "type": "wokwi-ds18b20", "id": "temp1", "top": -50, "left": 150 },
-    { "type": "wokwi-text", "id": "label_temp1", "top": -30, "left": 190, "attrs": { "text": "Water temperature" } },
+    { "type": "wokwi-dht22", "id": "temp1", "top": -50, "left": 150 },
+    { "type": "wokwi-text", "id": "label_temp1", "top": -80, "left": 120, "attrs": { "text": "Water temperature" } },
 
     { "type": "wokwi-relay-module", "id": "pump1", "top": 100, "left": 200 },
-    { "type": "wokwi-text", "id": "label_pump1", "top": 160, "left": 210, "attrs": { "text": "Water pump 1" } },
+    { "type": "wokwi-text", "id": "label_pump1", "top": 160, "left": 210, "attrs": { "text": "Heating water pump" } },
+
+    { "type": "wokwi-relay-module", "id": "pump2", "top": 100, "left": 400 },
+    { "type": "wokwi-text", "id": "label_pump2", "top": 160, "left": 410, "attrs": { "text": "Massage water pump 1" } },
+
+    { "type": "wokwi-relay-module", "id": "pump3", "top": 220, "left": 400 },
+    { "type": "wokwi-text", "id": "label_pump3", "top": 280, "left": 410, "attrs": { "text": "Massage water pump 2" } },
 
     { "type": "wokwi-relay-module", "id": "heater", "top": 220, "left": 200 },
     { "type": "wokwi-text", "id": "label_heater", "top": 280, "left": 210, "attrs": { "text": "Heater element" } },
@@ -25,13 +31,21 @@
     [ "esp:TX", "$serialMonitor:RX", "", [] ], 
     [ "esp:RX", "$serialMonitor:TX", "", [] ],
 
-    [ "esp:4", "temp1:DQ", "green", [] ],
+    [ "esp:4", "temp1:SDA", "green", [] ],
     [ "esp:3V3", "temp1:VCC", "red", [] ],
     [ "esp:GND", "temp1:GND", "black", [] ],
 
     [ "esp:5", "pump1:IN", "blue", [] ],
     [ "esp:GND", "pump1:GND", "black", [] ],
     [ "esp:VIN", "pump1:VCC", "red", [] ],
+
+    [ "esp:18", "pump2:IN", "blue", [] ],
+    [ "esp:GND", "pump2:GND", "black", [] ],
+    [ "esp:VIN", "pump2:VCC", "red", [] ],
+
+    [ "esp:17", "pump3:IN", "blue", [] ],
+    [ "esp:GND", "pump3:GND", "black", [] ],
+    [ "esp:VIN", "pump3:VCC", "red", [] ],
 
     [ "esp:2", "heater:IN", "blue", [] ],
     [ "esp:GND", "heater:GND", "black", [] ],

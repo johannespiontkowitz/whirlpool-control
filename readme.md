@@ -6,6 +6,7 @@
 - Virtual ESP does not reach WIFI (only it's own) -> expected behaviour for virtual ESP. Will try again with physical device.
 - Homeassistant only available locally
 - Display relevant information on a physical screen ([https://animator.wokwi.com/](https://animator.wokwi.com/) might come in handy)
+- Add on/off switch for pumps 2 and 3
 - ...? 
 
 ## Overview
@@ -51,8 +52,37 @@ Open the simulator with CTRL+SHIFT+P -> select *Wokwi: Start Simulator*. A simul
 `Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process`  
 `venv\Scripts\Activate`
 
-### Upload code to the esp (below is the code for WOKWI simulator)
+### Upload code to the esp simulator (wokwi)
 `python -m mpremote connect port:rfc2217://localhost:4000 mount src run src/main.py`
+
+### Upload code to the physical esp
+The following is a sample on how all files need to be transferred.  
+__erase_flash__ and __write_flash__ are not necessary in all cases. If you feel the esp32 is faulty, use these lines to flash the software completely.
+
+py -m pip install esptool mpremote
+
+py -m esptool --chip esp32 --port COM3 erase_flash
+py -m esptool --chip esp32 --port COM3 --baud 460800 write_flash -z 0x1000 .\esp32\ESP32_GENERIC-20251209-v1.27.0.bin
+
+mpremote connect COM3 fs mkdir :components
+mpremote connect COM3 fs mkdir :components/oled
+
+mpremote connect COM3 fs mkdir :configs
+mpremote connect COM3 fs mkdir :controllers
+
+mpremote connect COM3 fs cp .\src\components\oled\ssd1306.py :components/oled/ssd1306.py
+mpremote connect COM3 fs cp .\src\components\limit_switch.py :components/limit_switch.py
+mpremote connect COM3 fs cp .\src\configs\config.py :configs/config.py
+mpremote connect COM3 fs cp .\src\configs\mqtt_config.py :configs/mqtt_config.py
+mpremote connect COM3 fs cp .\src\configs\network_config.py :configs/network_config.py
+
+mpremote connect COM3 fs cp .\src\controllers\bubble_control.py :controllers/bubble_control.py
+mpremote connect COM3 fs cp .\src\controllers\pump_control.py :controllers/pump_control.py
+mpremote connect COM3 fs cp .\src\main.py :main.py
+
+mpremote connect COM3 reset
+mpremote connect COM3 repl
+
 
 ### GitHub
 `git init`  
