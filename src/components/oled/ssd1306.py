@@ -79,6 +79,31 @@ class SSD1306(framebuf.FrameBuffer):
     def invert(self, invert):
         self.write_cmd(SET_NORM_INV | (invert & 1))
 
+    def text_scaled(self, s, x, y, scale=1, col=1):
+        """Draw text with the built-in 8x8 font resized by any positive scale factor (also < 1)."""
+        if scale == 1:
+            self.text(s, x, y, col)
+            return
+        if scale <= 0:
+            return
+
+        glyph_w = 8 * len(s)
+        glyph = framebuf.FrameBuffer(bytearray(glyph_w), glyph_w, 8, framebuf.MONO_VLSB)
+        glyph.fill(0)
+        glyph.text(s, 0, 0, 1)
+
+        block = max(1, round(scale))
+        for gy in range(8):
+            for gx in range(glyph_w):
+                if glyph.pixel(gx, gy):
+                    px = x + round(gx * scale)
+                    py = y + round(gy * scale)
+                    if scale >= 1:
+                        self.fill_rect(px, py, block, block, col)
+                    else:
+                        # downscaling: multiple source pixels can land on the same dest pixel, that's fine
+                        self.pixel(px, py, col)
+
     def show(self):
         x0 = 0
         x1 = self.width - 1

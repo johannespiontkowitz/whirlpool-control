@@ -5,6 +5,7 @@
 - LEDs strips not implemented
 - Virtual ESP does not reach WIFI (only it's own) -> expected behaviour for virtual ESP. Will try again with physical device.
 - Homeassistant only available locally
+- Display relevant information on a physical screen ([https://animator.wokwi.com/](https://animator.wokwi.com/) might come in handy)
 - ...? 
 
 ## Overview
